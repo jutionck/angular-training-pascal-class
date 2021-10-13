@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  title: 'Angular Intro'
+  title: 'Angular Intro',
+  apiUrl: 'http://localhost:8080/api'
 };
 
 /*

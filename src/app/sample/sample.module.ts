@@ -8,10 +8,15 @@ import { HeaderComponent } from './header/header.component';
 import { LinksComponent } from './links/links.component';
 import { SampleComponent } from './sample.component';
 
-
-
 @NgModule({
-  declarations: [HighligtCardComponent, ResourcesComponent, NextStepsComponent, FooterComponent, HeaderComponent, LinksComponent, SampleComponent],
+  declarations: [
+    HighligtCardComponent,
+    ResourcesComponent,
+    NextStepsComponent,
+    FooterComponent,
+    HeaderComponent,
+    LinksComponent,
+    SampleComponent],
   imports: [
     CommonModule
   ],
