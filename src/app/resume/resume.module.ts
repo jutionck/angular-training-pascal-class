@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ResumeComponent } from './resume.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ContentComponent } from './components/content/content.component';
+import { SharedModule } from '../shared/shared.module';
+import { ResumeRoutingModule } from './resume-routing.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +13,8 @@ import { ContentComponent } from './components/content/content.component';
     ContentComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ResumeRoutingModule
   ],
   exports: [
     ResumeComponent

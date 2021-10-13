@@ -20,7 +20,9 @@
         >
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" routerLink=""
+                >Home</a
+              >
             </li>
             <li class="nav-item dropdown">
               <a
@@ -34,12 +36,19 @@
                 Demo
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Demo 1</a></li>
-                <li><a class="dropdown-item" href="#">Demo 2</a></li>
+                <li>
+                  <a class="dropdown-item" routerLink="/demo/demo1">Demo 1</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" routerLink="/demo/demo2">Demo 2</a>
+                </li>
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" routerLink="/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/contact">Contact</a>
             </li>
           </ul>
         </div>
