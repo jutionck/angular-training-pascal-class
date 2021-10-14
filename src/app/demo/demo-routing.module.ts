@@ -1,21 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { RouteGuard } from '../shared/guard/route.guard';
 import { DemoComponent } from './demo.component';
-import { Demo1Component } from './demo1/demo1.component';
-import { Demo2Component } from './demo2/demo2.component';
+import { ShopaComponent } from './shopa/shopa.component';
+import { TodoComponent } from './todo/todo.component';
 
 const routes: Routes = [
   {
     path: '',
     component: DemoComponent,
+    canActivate: [RouteGuard],
+    canActivateChild: [RouteGuard],
     children: [
       {
-        path: 'demo1',
-        component: Demo1Component
+        path: 'shopa',
+        component: ShopaComponent
       },
       {
-        path: 'demo2',
-        component: Demo2Component
+        path: 'todo',
+        component: TodoComponent
       }
     ]
   },
