@@ -133,3 +133,16 @@ const routes: Routes = [
   },
 ];
 ```
+
+Modify `header.component.html` adding `routerLinkActive="active"`
+
+```html
+<a class="nav-link" aria-current="page" routerLinkActive="active" routerLink=""
+  >Home</a
+>
+```
+
+### PART Route Guard
+
+> Create guard auth `ng g g auth/auth`
+> Choose `CanActivate`
