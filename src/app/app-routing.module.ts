@@ -8,11 +8,6 @@ const routes: Routes = [
       .then(module => module.ResumeModule)
   },
   {
-    path: 'demo',
-    loadChildren: () => import('./demo/demo.module')
-      .then(module => module.DemoModule)
-  },
-  {
     path: '',
     loadChildren: () => import('./pages/pages.module')
       .then(m => m.PagesModule)
