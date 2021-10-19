@@ -1,0 +1,12 @@
+<div class="row p-5">
+  <div class="col">
+    <app-todo-list
+      [todos]="todos"
+      (todo)="onCheckedTodo($event)"
+      (viewTodo)="onViewTodo($event)"
+    ></app-todo-list>
+  </div>
+  <div class="col">
+    <app-todo-form [todo]="todos"></app-todo-form>
+  </div>
+</div>
