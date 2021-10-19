@@ -1,0 +1,31 @@
+<div class="card shadow">
+  <div class="card-body">
+    <h5 class="card-title">Todo Form</h5>
+    <form action="" [formGroup]="todoForm" (ngSubmit)="onSubmitTodo()">
+      <div class="input-group mb-3">
+        <div class="input-group-text">
+          <input
+            class="form-check-input mt-0"
+            type="checkbox"
+            aria-label="Checkbox for following text input"
+            formControlName="isDone"
+          />
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          aria-label="Text input with checkbox"
+          placeholder="Adding todo name"
+          formControlName="name"
+        />
+        <button
+          class="btn btn-outline-primary"
+          type="submit"
+          [disabled]="todoForm.invalid"
+        >
+          ADD
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
