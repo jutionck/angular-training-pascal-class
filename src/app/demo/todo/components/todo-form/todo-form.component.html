@@ -1,6 +1,12 @@
 <div class="card shadow">
   <div class="card-body">
     <h5 class="card-title">Todo Form</h5>
+
+    <p>Do Check count {{ DocheckCount }}</p>
+    <ul>
+      <li *ngFor="let log of changelog">{{ log }}</li>
+    </ul>
+
     <form action="" [formGroup]="todoForm" (ngSubmit)="onSubmitTodo()">
       <div class="input-group mb-3">
         <div class="input-group-text">

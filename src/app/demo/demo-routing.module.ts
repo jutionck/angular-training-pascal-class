@@ -15,6 +15,10 @@ const routes: Routes = [
   {
     path: 'hotels',
     loadChildren: () => import('./hotel-app/hotel-app.module').then(m => m.HotelAppModule)
+  },
+  {
+    path: 'lifecycle',
+    loadChildren: () => import('./lifecycle/lifecycle.module').then(m => m.LifecycleModule)
   }];
 
 @NgModule({

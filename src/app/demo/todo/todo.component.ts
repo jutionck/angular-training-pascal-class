@@ -53,7 +53,6 @@ export class TodoComponent implements OnInit {
   }
 
   onEditTodo(todo: Todo): void {
-    console.log(todo);
     this.todoValue = todo;
   }
 

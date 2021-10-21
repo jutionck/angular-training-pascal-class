@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, Form, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { printLog } from 'src/environments/environment';
 import { Todo } from '../../models/todo.model';
 
 @Component({
@@ -7,13 +8,17 @@ import { Todo } from '../../models/todo.model';
   templateUrl: './todo-form.component.html',
   styleUrls: ['./todo-form.component.scss']
 })
-export class TodoFormComponent implements OnInit, OnChanges {
+export class TodoFormComponent implements OnInit, OnChanges, DoCheck {
 
   @Input() todo?: Todo;
   // @Output() saveTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
 
   // penerapan two way
   @Output() todoChange: EventEmitter<Todo> = new EventEmitter<Todo>();
+
+  DocheckCount = 0;
+  changelog: string[] = [];
+  todoOld?: Todo;
 
   todoForm: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -99,5 +104,18 @@ export class TodoFormComponent implements OnInit, OnChanges {
       isDone: new FormControl(false),
     }))
   }
+
+  ngDoCheck(): void {
+    printLog('Todo DoCheck');
+    this.DocheckCount++;
+    if (this.todoOld?.name !== this.todo?.name) {
+      const to = JSON.stringify(this.todo);
+      const from = JSON.stringify(this.todoOld);
+      const changeLog = `DoCheck customer: changed from ${from} to ${to} `;
+      this.changelog.push(changeLog);
+      this.todoOld = Object.assign({}, this.todo);
+    }
+  }
+
 
 }

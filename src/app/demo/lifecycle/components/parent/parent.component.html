@@ -1,0 +1,16 @@
+<div class="row p-3 m-3">
+  <div class="col">
+    <h4>{{ title }}</h4>
+
+    <button class="btn btn-outline-primary mb-3" (click)="toggleChild()">
+      Toggle Child Component
+    </button>
+
+    <ng-container *ngIf="isChild">
+      <input type="text" [(ngModel)]="bootcampName" class="form-control" />
+      <app-child [bootcampName]="bootcampName">
+        This <b>content</b> is injected from parent
+      </app-child>
+    </ng-container>
+  </div>
+</div>
