@@ -1,5 +1,6 @@
 export interface Todo {
   id: number,
   name: string,
-  isDone: boolean
+  isDone: boolean,
+  subTodo?: Todo[]
 }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, Form, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Todo } from '../../models/todo.model';
 
 @Component({
@@ -18,7 +18,8 @@ export class TodoFormComponent implements OnInit, OnChanges {
   todoForm: FormGroup = new FormGroup({
     id: new FormControl(null),
     name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-    isDone: new FormControl(false)
+    isDone: new FormControl(false),
+    subTodos: new FormArray([])
   })
 
   ngOnInit(): void { }
@@ -30,6 +31,8 @@ export class TodoFormComponent implements OnInit, OnChanges {
   }
 
   onSubmitTodo(): void {
+    console.log(this.todoForm.value);
+
     this.todoChange.emit(this.todoForm.value)
     this.todoForm.reset();
   }
@@ -40,8 +43,12 @@ export class TodoFormComponent implements OnInit, OnChanges {
   // }
 
   // validasi form
-  isFieldValid(fieldName: string): string {
+  isFieldValid(fieldName: string, parent?: AbstractControl): string {
     const control: AbstractControl = this.todoForm.get(fieldName) as AbstractControl;
+
+    if (parent) {
+      parent = control;
+    }
 
     if (control && control.touched && control.invalid) {
       return 'is-invalid';
@@ -76,5 +83,21 @@ export class TodoFormComponent implements OnInit, OnChanges {
   //     return message;
   //   }
   // }
+
+  //form array
+  getSubTodo(): any[] {
+    const subTodos: FormArray = this.todoForm.get('subTodos') as FormArray;
+
+    return subTodos.controls;
+  }
+
+  addTodo(): void {
+    const subs: FormArray = this.todoForm.get('subTodos') as FormArray;
+    subs.push(new FormGroup({
+      id: new FormControl(null),
+      name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
+      isDone: new FormControl(false),
+    }))
+  }
 
 }
