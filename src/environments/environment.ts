@@ -5,8 +5,14 @@
 export const environment = {
   production: false,
   title: 'Angular Intro',
-  apiUrl: 'http://localhost:8080/api'
+  nightlyFee: 250000
 };
+
+export const validateMessage = {
+  'required': 'Field harus diisi',
+  'minlength': 'Field %s minimal harus lebih panjang dari %s',
+  'email': 'Field %s ini harus berupa email yang valid'
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

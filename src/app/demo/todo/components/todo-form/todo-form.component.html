@@ -13,7 +13,7 @@
         </div>
         <input
           type="text"
-          class="form-control"
+          class="form-control {{ isFieldValid('name') }}"
           aria-label="Text input with checkbox"
           placeholder="Adding todo name"
           formControlName="name"
@@ -25,6 +25,12 @@
         >
           ADD
         </button>
+        <div
+          class="invalid-feedback"
+          validation-message
+          [control]="todoForm.controls['name']"
+          [label]="'todo name'"
+        ></div>
       </div>
     </form>
   </div>
