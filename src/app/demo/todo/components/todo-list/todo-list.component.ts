@@ -15,6 +15,8 @@ export class TodoListComponent implements OnInit {
   @Output() editTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
   @Output() deleteTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
 
+  viewMode: string = 'mode-1';
+
   onCheckTodo(todo: Todo): void {
     todo.isDone = !todo.isDone;
     this.toggleTodo.emit();

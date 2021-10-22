@@ -32,4 +32,25 @@
       </li>
     </ul>
   </div>
+  <div class="card-body">
+    <h5 class="card-title">Directive</h5>
+
+    <div class="btn-group">
+      <button
+        class="btn btn-outline-primary btn-sm"
+        (click)="viewMode = 'mode-1'"
+      >
+        Mode 1
+      </button>
+      <button appBsbutton color="warning" (click)="viewMode = 'mode-2'">
+        Mode 2
+      </button>
+    </div>
+
+    <div [ngSwitch]="viewMode">
+      <div *ngSwitchCase="'mode-1'"><span appHiglight> Mode 1</span></div>
+      <div *ngSwitchCase="'mode-2'">Mode 2</div>
+      <div *ngSwitchDefault>Default</div>
+    </div>
+  </div>
 </div>

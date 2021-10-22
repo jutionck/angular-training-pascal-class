@@ -4,20 +4,29 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { ValidationMessageComponent } from './components/validation-message/validation-message.component';
+import { HighlightDirective } from './directives/highlight.directive';
+import { BsbuttonDirective } from './directives/bsbutton.directive';
 
+const components = [
+  HeaderComponent,
+  FooterComponent,
+  ValidationMessageComponent];
+
+const directives = [
+  HighlightDirective, BsbuttonDirective
+];
 @NgModule({
   declarations: [
-    HeaderComponent,
-    FooterComponent,
-    ValidationMessageComponent],
+    ...components,
+    ...directives,
+  ],
   imports: [
     CommonModule,
     RouterModule
   ],
   exports: [
-    HeaderComponent,
-    FooterComponent,
-    ValidationMessageComponent
+    ...components,
+    ...directives
   ]
 })
 export class SharedModule { }
