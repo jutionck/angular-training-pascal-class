@@ -7,16 +7,22 @@ import { TodoListComponent } from './components/todo-list/todo-list.component';
 import { TodoFormComponent } from './components/todo-form/todo-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-
+import { TodoService } from './services/todo.service';
 
 @NgModule({
-  declarations: [TodoComponent, TodoListComponent, TodoFormComponent],
+  declarations: [
+    TodoComponent,
+    TodoListComponent,
+    TodoFormComponent],
   imports: [
     CommonModule,
     TodoRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule
+  ],
+  providers: [
+    TodoService
   ]
 })
 export class TodoModule { }

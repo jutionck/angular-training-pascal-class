@@ -7,6 +7,7 @@ import { ValidationMessageComponent } from './components/validation-message/vali
 import { HighlightDirective } from './directives/highlight.directive';
 import { BsbuttonDirective } from './directives/bsbutton.directive';
 import { MailtoPipe } from './pipes/mailto.pipe';
+import { SessionService } from './services/session.service';
 
 const components = [
   HeaderComponent,
@@ -16,6 +17,8 @@ const components = [
 const directives = [
   HighlightDirective, BsbuttonDirective
 ];
+
+const services = [SessionService];
 
 const pipes = [MailtoPipe]
 @NgModule({
@@ -32,6 +35,9 @@ const pipes = [MailtoPipe]
     ...components,
     ...directives,
     ...pipes
+  ],
+  providers: [
+    ...services
   ]
 })
 export class SharedModule { }

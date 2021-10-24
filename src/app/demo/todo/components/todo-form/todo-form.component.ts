@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, Form, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AlertMessage } from 'src/app/shared/models/alert-message.model';
+import { SessionService } from 'src/app/shared/services/session.service';
 import { Todo } from '../../models/todo.model';
 
 @Component({
@@ -19,8 +21,11 @@ export class TodoFormComponent implements OnInit, OnChanges {
     id: new FormControl(null),
     name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
     isDone: new FormControl(false),
-    subTodos: new FormArray([])
   })
+
+  constructor(
+    private readonly session: SessionService
+  ) { }
 
   ngOnInit(): void { }
 
@@ -32,15 +37,14 @@ export class TodoFormComponent implements OnInit, OnChanges {
 
   onSubmitTodo(): void {
     console.log(this.todoForm.value);
-
-    this.todoChange.emit(this.todoForm.value)
+    const todo: Todo = this.todoForm.value
+    const message: AlertMessage = {
+      status: 'success', text: `Todo ${todo.name} saved`
+    }
+    this.todoChange.emit(todo)
     this.todoForm.reset();
+    this.session.setFlash(JSON.stringify(message));
   }
-
-  // validator
-  // isValid(): boolean {
-  //   return !this.todoForm.get('name')?.value
-  // }
 
   // validasi form
   isFieldValid(fieldName: string, parent?: AbstractControl): string {
@@ -59,45 +63,5 @@ export class TodoFormComponent implements OnInit, OnChanges {
     }
   }
 
-  // displayErrors(fieldName: string): string {
-  //   const control: AbstractControl = this.todoForm.get(fieldName) as AbstractControl;
-
-  //   const messages: any = {
-  //     'required': 'Field ini wajib diisi',
-  //     'minlength': 'Field ini harus melebihi panjang {minlength}'
-  //   }
-
-  //   if (control && control.errors) {
-  //     const error = Object.values(control.errors).pop();
-  //     const key = Object.keys(control.errors).pop() as string;
-
-  //     console.log(key);
-
-
-  //     let message = messages[key];
-  //     if (key === 'minlength') {
-  //       message = message.replace('{minlength}', error.requiredLength)
-  //     }
-
-
-  //     return message;
-  //   }
-  // }
-
-  //form array
-  getSubTodo(): any[] {
-    const subTodos: FormArray = this.todoForm.get('subTodos') as FormArray;
-
-    return subTodos.controls;
-  }
-
-  addTodo(): void {
-    const subs: FormArray = this.todoForm.get('subTodos') as FormArray;
-    subs.push(new FormGroup({
-      id: new FormControl(null),
-      name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-      isDone: new FormControl(false),
-    }))
-  }
 
 }

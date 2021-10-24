@@ -32,43 +32,6 @@
           [label]="'todo name'"
         ></div>
       </div>
-      <div class="mb-3">
-        <button
-          type="button"
-          class="btn btn-outline-primary"
-          (click)="addTodo()"
-        >
-          Add Sub Todo
-        </button>
-      </div>
-      <div
-        class="input-group mb-3 has-validation"
-        *ngFor="let control of getSubTodo(); let i = index"
-      >
-        <ng-container [formGroup]="control">
-          <div class="input-group-text">
-            <input
-              class="form-check-input mt-0"
-              type="checkbox"
-              aria-label="Checkbox for following text input"
-              formControlName="isDone"
-            />
-          </div>
-          <input
-            type="text"
-            class="form-control {{ isFieldValid('name') }}"
-            aria-label="Text input with checkbox"
-            placeholder="Adding todo name"
-            formControlName="name"
-          />
-          <div
-            class="invalid-feedback"
-            validation-message
-            [control]="todoForm.controls['name']"
-            [label]="'todo name'"
-          ></div>
-        </ng-container>
-      </div>
     </form>
   </div>
 </div>

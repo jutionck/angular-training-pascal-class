@@ -24,28 +24,7 @@ export class TodoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    const sessionTodos: string = sessionStorage.getItem('todos') as string;
-
-    if (!sessionTodos) {
-      const todos: Todo[] = [
-        {
-          id: 1,
-          name: 'Makan',
-          isDone: true,
-        },
-        {
-          id: 2,
-          name: 'Minum',
-          isDone: false
-        }
-      ];
-
-      sessionStorage.setItem('todos', JSON.stringify(todos))
-      this.todos = todos;
-    } else {
-      this.todos = JSON.parse(sessionTodos);
-    }
+    
   }
 
   onToggleTodo(): void {
