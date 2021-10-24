@@ -14,6 +14,10 @@ export const validateMessage = {
   'email': 'Field %s ini harus berupa email yang valid'
 }
 
+export const printLog = (message: string) => {
+  console.log(`This ${message} is called!`);
+}
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
