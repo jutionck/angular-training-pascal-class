@@ -1,0 +1,43 @@
+<div class="card shadow">
+  <ng-container *ngIf="message">
+    <div class="alert {{ message.status ? 'alert-' + message.status : '' }}">
+      {{ message.text }}
+    </div>
+  </ng-container>
+
+  <div class="card-body">
+    <h5 class="card-title">Todo Form</h5>
+    <form action="" [formGroup]="todoForm" (ngSubmit)="onSubmitTodo()">
+      <div class="input-group mb-3">
+        <div class="input-group-text">
+          <input
+            class="form-check-input mt-0"
+            type="checkbox"
+            aria-label="Checkbox for following text input"
+            formControlName="isDone"
+          />
+        </div>
+        <input
+          type="text"
+          class="form-control {{ isFieldValid('name') }}"
+          aria-label="Text input with checkbox"
+          placeholder="Adding todo name"
+          formControlName="name"
+        />
+        <button
+          class="btn btn-outline-primary"
+          type="submit"
+          [disabled]="todoForm.invalid"
+        >
+          ADD
+        </button>
+        <div
+          class="invalid-feedback"
+          validation-message
+          [control]="todoForm.controls['name']"
+          [label]="'todo name'"
+        ></div>
+      </div>
+    </form>
+  </div>
+</div>

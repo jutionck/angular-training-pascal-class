@@ -1,0 +1,50 @@
+<div class="card shadow">
+  <div class="card-body">
+    <h5 class="card-title">Todo List</h5>
+    <ul class="list-group">
+      <ng-container *ngIf="!loading; else isLoading">
+        <li *ngFor="let todo of todos" class="list-group-item">
+          <div class="form-check">
+            <input
+              class="form-check-input mt-0"
+              type="checkbox"
+              id="{{ todo.id }}_checkbox"
+              [value]="todo.id"
+              [checked]="todo.isDone"
+              (click)="onCheckTodo(todo)"
+              aria-label="Checkbox for following text input"
+            />
+            <label for="{{ todo.id }}_checkbox" class="form-check-label">
+              {{ todo.name }}
+            </label>
+            <button
+              class="btn btn-link btn-sm float-end"
+              (click)="onDeleteTodo(todo.id)"
+            >
+              <i class="fas fa fa-trash"></i>
+            </button>
+            <button
+              class="btn btn-link btn-sm float-end"
+              (click)="onSelectTodo(todo)"
+              routerLink="/demo/todos/{{ todo.id }}"
+            >
+              <i class="fas fa fa-edit"></i>
+            </button>
+          </div>
+        </li>
+      </ng-container>
+      <ng-template #isLoading>
+        <li class="list-group-item">
+          <span class="d-flex align-items-center">
+            <strong>Loading...</strong>
+            <div
+              class="spinner-border ms-auto"
+              role="status"
+              aria-hidden="true"
+            ></div>
+          </span>
+        </li>
+      </ng-template>
+    </ul>
+  </div>
+</div>

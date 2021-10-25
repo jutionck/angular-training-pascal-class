@@ -19,7 +19,12 @@ const routes: Routes = [
   {
     path: 'lifecycle',
     loadChildren: () => import('./lifecycle/lifecycle.module').then(m => m.LifecycleModule)
-  }];
+  },
+  {
+    path: 'new-todos',
+    loadChildren: () => import('./new-todo/new-todo.module').then(m => m.NewTodoModule)
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
