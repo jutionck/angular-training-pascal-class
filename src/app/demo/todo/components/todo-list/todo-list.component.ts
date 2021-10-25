@@ -9,36 +9,28 @@ import { TodoService } from '../../services/todo.service';
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss']
 })
-export class TodoListComponent implements OnInit, OnChanges {
+export class TodoListComponent implements OnInit {
 
-  todos: Todo[] = [];
-  message?: AlertMessage; // buat optional karena belum tentu ada
-
-  constructor(
-    private readonly session: SessionService,
-    private readonly todoService: TodoService
-  ) { }
-
+  constructor(private readonly todoService: TodoService) { }
   ngOnInit(): void {
-    this.todos = this.todoService.findAll()
+    this.getAllTodos()
   }
 
-  ngOnChanges(): void {
-    const message: string = this.session.getFlash();
-    if (message) {
-      this.message = JSON.parse(message)
-    }
+  todos: Todo[] = [];
+
+  getAllTodos(): void {
+    this.todos = this.todoService.getAll();
   }
 
   onCheckTodo(todo: Todo): void {
-    this.todoService.findById(todo.id);
+    this.todoService.checkedTodo(todo);
   }
 
   onSelectTodo(todo: Todo): void {
-
+    console.log(this.todoService.getTodoById(todo.id));
   }
-
+  
   onDeleteTodo(todo: Todo): void {
+    this.todoService.deleteTodo(todo.id)
   }
-
 }

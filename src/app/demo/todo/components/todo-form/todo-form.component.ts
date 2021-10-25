@@ -1,49 +1,59 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, Form, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { map } from 'rxjs/operators'
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AlertMessage } from 'src/app/shared/models/alert-message.model';
-import { SessionService } from 'src/app/shared/services/session.service';
 import { Todo } from '../../models/todo.model';
+import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-todo-form',
   templateUrl: './todo-form.component.html',
   styleUrls: ['./todo-form.component.scss']
 })
-export class TodoFormComponent implements OnInit, OnChanges {
+export class TodoFormComponent implements OnInit {
 
-  @Input() todo?: Todo;
-  // @Output() saveTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
-
-  // penerapan two way
-  @Output() todoChange: EventEmitter<Todo> = new EventEmitter<Todo>();
-
+  todo?: Todo;
+  message?: AlertMessage;
   todoForm: FormGroup = new FormGroup({
     id: new FormControl(null),
     name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
     isDone: new FormControl(false),
+    subTodos: new FormArray([])
   })
 
   constructor(
-    private readonly session: SessionService
+    private readonly todoService: TodoService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.activatedRoute.params.pipe(
+      map((params: Params) => {
+        return params.id ? +params.id : null
+      })
+    ).subscribe(id => {
+      this.todo = this.todoService.getTodoById(id);
+      this.setFormValue();
+    })
+  }
 
-  ngOnChanges(): void {
+  setFormValue(): void {
     if (this.todo) {
       this.todoForm.setValue(this.todo)
     }
   }
 
   onSubmitTodo(): void {
-    console.log(this.todoForm.value);
-    const todo: Todo = this.todoForm.value
-    const message: AlertMessage = {
-      status: 'success', text: `Todo ${todo.name} saved`
+    const todo: Todo = this.todoForm.value;
+    this.todoService.saveTodo(todo);
+    this.message = {
+      status: 'success',
+      text: `Todo ${todo.name} berhasil tersimpan`
     }
-    this.todoChange.emit(todo)
     this.todoForm.reset();
-    this.session.setFlash(JSON.stringify(message));
+    this.router.navigateByUrl('/demo/todos');
   }
 
   // validasi form
@@ -63,5 +73,19 @@ export class TodoFormComponent implements OnInit, OnChanges {
     }
   }
 
+  //form array
+  getSubTodo(): any[] {
+    const subTodos: FormArray = this.todoForm.get('subTodos') as FormArray;
 
+    return subTodos.controls;
+  }
+
+  addTodo(): void {
+    const subs: FormArray = this.todoForm.get('subTodos') as FormArray;
+    subs.push(new FormGroup({
+      id: new FormControl(null),
+      name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
+      isDone: new FormControl(false),
+    }))
+  }
 }
