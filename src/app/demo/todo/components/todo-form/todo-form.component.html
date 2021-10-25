@@ -1,4 +1,10 @@
 <div class="card shadow">
+  <ng-container *ngIf="message">
+    <div class="alert {{ message.status ? 'alert-' + message.status : '' }}">
+      {{ message.text }}
+    </div>
+  </ng-container>
+
   <div class="card-body">
     <h5 class="card-title">Todo Form</h5>
     <form action="" [formGroup]="todoForm" (ngSubmit)="onSubmitTodo()">

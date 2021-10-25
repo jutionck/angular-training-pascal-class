@@ -1,20 +1,19 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, Form, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Todo } from '../../models/todo.model';
-
+import { TodoService } from '../../services/todo.service';
+import { map } from 'rxjs/operators'
+import { AlertMessage } from 'src/app/shared/models/alert-message';
 @Component({
   selector: 'app-todo-form',
   templateUrl: './todo-form.component.html',
   styleUrls: ['./todo-form.component.scss']
 })
-export class TodoFormComponent implements OnInit, OnChanges {
+export class TodoFormComponent implements OnInit {
 
-  @Input() todo?: Todo;
-  // @Output() saveTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
-
-  // penerapan two way
-  @Output() todoChange: EventEmitter<Todo> = new EventEmitter<Todo>();
-
+  todo?: Todo;
+  message?: AlertMessage;
   todoForm: FormGroup = new FormGroup({
     id: new FormControl(null),
     name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
@@ -22,25 +21,39 @@ export class TodoFormComponent implements OnInit, OnChanges {
     subTodos: new FormArray([])
   })
 
-  ngOnInit(): void { }
+  constructor(
+    private readonly todoService: TodoService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router
+  ) { }
 
-  ngOnChanges(): void {
+  ngOnInit(): void {
+    this.activatedRoute.params.pipe(
+      map((params: Params) => {
+        return params.id ? +params.id : null
+      })
+    ).subscribe(id => {
+      this.todo = this.todoService.getTodoById(id);
+      this.setFormValue();
+    })
+  }
+
+  setFormValue(): void {
     if (this.todo) {
       this.todoForm.setValue(this.todo)
     }
   }
 
   onSubmitTodo(): void {
-    console.log(this.todoForm.value);
-
-    this.todoChange.emit(this.todoForm.value)
+    const todo: Todo = this.todoForm.value;
+    this.todoService.saveTodo(todo);
+    this.message = {
+      status: 'success',
+      text: `Todo ${todo.name} berhasil tersimpan`
+    }
     this.todoForm.reset();
+    this.router.navigateByUrl('/demo/todos');
   }
-
-  // validator
-  // isValid(): boolean {
-  //   return !this.todoForm.get('name')?.value
-  // }
 
   // validasi form
   isFieldValid(fieldName: string, parent?: AbstractControl): string {
@@ -58,31 +71,6 @@ export class TodoFormComponent implements OnInit, OnChanges {
       return '';
     }
   }
-
-  // displayErrors(fieldName: string): string {
-  //   const control: AbstractControl = this.todoForm.get(fieldName) as AbstractControl;
-
-  //   const messages: any = {
-  //     'required': 'Field ini wajib diisi',
-  //     'minlength': 'Field ini harus melebihi panjang {minlength}'
-  //   }
-
-  //   if (control && control.errors) {
-  //     const error = Object.values(control.errors).pop();
-  //     const key = Object.keys(control.errors).pop() as string;
-
-  //     console.log(key);
-
-
-  //     let message = messages[key];
-  //     if (key === 'minlength') {
-  //       message = message.replace('{minlength}', error.requiredLength)
-  //     }
-
-
-  //     return message;
-  //   }
-  // }
 
   //form array
   getSubTodo(): any[] {
