@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: NewTodoComponent
+  },
+  {
+    path: ':id',
+    component: NewTodoComponent
   }];
 
 @NgModule({

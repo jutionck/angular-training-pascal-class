@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertMessage } from 'src/app/shared/models/alert-message';
+import { NewTodoService } from '../../services/new-todo.service';
+import { delay, map, switchMap } from 'rxjs/operators'
+import { EMPTY } from 'rxjs';
+import { Todo } from '../../models/todo.model';
 
 @Component({
   selector: 'app-new-todo-form',
@@ -10,17 +15,59 @@ import { AlertMessage } from 'src/app/shared/models/alert-message';
 export class NewTodoFormComponent implements OnInit {
 
   message?: AlertMessage;
+  loading: boolean = false;
   todoForm: FormGroup = new FormGroup({
     id: new FormControl(null),
     name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-    isDone: new FormControl(false)
+    isDone: new FormControl(false),
+    subTodos: new FormArray([])
   })
-  constructor() { }
+
+  constructor(
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly todoService: NewTodoService
+  ) { }
 
   ngOnInit(): void {
+    this.loading = true;
+    this.activatedRoute.params.pipe(
+      map(params => params.id),
+      delay(2000),
+      switchMap((id: string) => {
+        if (!id) return EMPTY
+        else {
+          return this.todoService.getById(+id)
+        }
+      })
+    )
+      .subscribe((todo: Todo) => {
+        if (todo) {
+          this.setFormValues(todo);
+        }
+      }, console.error,
+        () => this.loading = false
+      )
+  }
+
+  setFormValues(todo: Todo): void {
+    this.todoForm.get('id')?.setValue(todo.id);
+    this.todoForm.get('name')?.setValue(todo.name);
+    this.todoForm.get('isDone')?.setValue(todo.isDone);
+
+    if (Array.isArray(todo.subTodos) && todo.subTodos.length > 0) {
+      todo.subTodos.forEach((subTodo) => {
+        this.addTodo(subTodo);
+      })
+    }
   }
 
   onSubmitTodo(): void {
+    const todo: Todo = this.todoForm.value;
+    this.todoService.save(todo)
+      .subscribe(() => {
+        this.router.navigateByUrl('/demo/new-todos');
+      })
   }
 
   isFieldValid(fieldName: string, parent?: AbstractControl): string {
@@ -39,6 +86,19 @@ export class NewTodoFormComponent implements OnInit {
     }
   }
 
+  //form array
+  getSubTodo(): any[] {
+    const subTodos: FormArray = this.todoForm.get('subTodos') as FormArray;
 
+    return subTodos.controls;
+  }
 
+  addTodo(todo?: Todo): void {
+    const subs: FormArray = this.todoForm.get('subTodos') as FormArray;
+    subs.push(new FormGroup({
+      id: new FormControl(todo ? todo.id : null),
+      name: new FormControl(todo ? todo.name : null, [Validators.required, Validators.minLength(3)]),
+      isDone: new FormControl(todo ? todo.isDone : false),
+    }))
+  }
 }

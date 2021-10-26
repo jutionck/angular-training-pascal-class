@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observer } from 'rxjs';
 import { delay, switchMap } from 'rxjs/operators';
 import { Todo } from '../../models/todo.model';
@@ -16,11 +17,19 @@ export class NewTodoListComponent implements OnInit {
   subcriber: Observer<any>;
 
   constructor(
-    private readonly todoService: NewTodoService
+    private readonly todoService: NewTodoService,
+    private readonly activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.loadData();
+    this.todoService.isListUpdated()
+      .subscribe((updated: boolean) => {
+        if (updated) {
+          this.loadData()
+        }
+      })
+
   }
 
   loadData(): void {
@@ -43,7 +52,6 @@ export class NewTodoListComponent implements OnInit {
       error: console.error,
       complete: () => this.loading = false
     }
-
     this.loading = true;
     this.todoService.save(todo)
       .pipe(delay(1000))
@@ -59,7 +67,6 @@ export class NewTodoListComponent implements OnInit {
       error: console.error,
       complete: () => this.loading = false
     }
-
     this.loading = true;
     this.todoService.delete(id)
       .pipe(delay(1000), switchMap(() => this.todoService.getAll()))
