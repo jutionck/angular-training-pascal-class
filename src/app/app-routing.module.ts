@@ -16,12 +16,13 @@ const routes: Routes = [
   {
     path: 'demo',
     canActivate: [RouteGuard],
+    canActivateChild: [RouteGuard],
     loadChildren: () => import('./demo/demo.module').then(m => m.DemoModule)
   },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
-  },
+  }
 ];
 
 @NgModule({
