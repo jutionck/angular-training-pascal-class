@@ -1,0 +1,52 @@
+<div class="row align-items-center h-100 p-5">
+  <div class="col-3 mx-auto">
+    <main class="form-signin">
+      <form class="m-3" [formGroup]="authForm" (ngSubmit)="onSubmit()">
+        <h1 class="h3 mb-3 fw-normal text-center">
+          <i class="fas fa-code fa-4x"></i> <br />
+          Please sign in
+        </h1>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control {{ isFieldValid('username') }}"
+            id="floatingInput"
+            placeholder="Masukkan username"
+            formControlName="username"
+          />
+          <label for="floatingInput">Username</label>
+          <div
+            class="invalid-feedback"
+            validation-message
+            [control]="authForm.controls['username']"
+            [label]="'Username'"
+          ></div>
+        </div>
+        <div class="form-floating">
+          <input
+            type="password"
+            class="form-control {{ isFieldValid('password') }}"
+            id="floatingPassword"
+            placeholder="Masukkan password"
+            formControlName="password"
+          />
+          <label for="floatingPassword">Password</label>
+          <div
+            class="invalid-feedback"
+            validation-message
+            [control]="authForm.controls['password']"
+            [label]="'Password'"
+          ></div>
+        </div>
+        <button
+          class="w-100 btn btn-lg btn-primary mt-3"
+          type="submit"
+          [disabled]="authForm.invalid"
+        >
+          Sign in
+        </button>
+        <p class="mt-3 mb-3 text-muted text-center">© 2021</p>
+      </form>
+    </main>
+  </div>
+</div>

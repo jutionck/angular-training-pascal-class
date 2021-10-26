@@ -9,6 +9,10 @@ export class HeaderComponent implements OnInit {
 
   constructor() { }
 
+  isLoggedIn(): boolean {
+    return (sessionStorage.getItem('token') !== null)
+  }
+
   ngOnInit(): void {
   }
 

@@ -67,6 +67,7 @@ export class NewTodoFormComponent implements OnInit {
     this.todoService.save(todo)
       .subscribe(() => {
         this.router.navigateByUrl('/demo/new-todos');
+        this.todoForm.reset()
       })
   }
 

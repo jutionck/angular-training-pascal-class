@@ -20,11 +20,11 @@ export class RouteGuard implements CanActivate, CanActivateChild {
 
   private authorize(): boolean {
 
-    const authorize: boolean = (sessionStorage.getItem('authorize') !== null);
+    const authorize: boolean = (sessionStorage.getItem('token') !== null);
 
     if (!authorize) {
       alert('Kamu tidak mempunyai akses di halaman ini');
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('/auth/login');
     }
 
     return authorize;
