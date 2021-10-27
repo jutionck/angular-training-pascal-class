@@ -1,0 +1,63 @@
+<div class="card shadow mb-3">
+  <ng-container *ngIf="message">
+    <div class="alert {{ message.status ? 'alert-' + message.status : '' }}">
+      {{ message.text }}
+    </div>
+  </ng-container>
+  <div class="card-body">
+    <h5 class="card-title">User List</h5>
+    <h6 class="card-subtitle mb-2 text-muted">User Management Apps</h6>
+    <div class="table-wrapper-scroll-y user-table-scrollbar table-responsive">
+      <ng-container *ngIf="!loading; else isLoading">
+        <table class="table table-bordered mt-4">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Username</th>
+              <th>Nama Lengkap</th>
+              <th>Email</th>
+              <th>No Handphone</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users; index as i">
+              <td>{{ i + 1 }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.fullName }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.phone }}</td>
+              <td>
+                <div class="btn-group">
+                  <a
+                    class="btn btn-outline-success btn-sm"
+                    routerLink="/demo/users/{{ user.id }}"
+                    >UPDATE</a
+                  >
+                  <button
+                    class="btn btn-outline-danger btn-sm"
+                    (click)="onDeleteUser(user.id)"
+                  >
+                    DELETE
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-template #isLoading>
+        <li class="list-group-item">
+          <span class="d-flex align-items-center">
+            <strong>Loading...</strong>
+            <div
+              class="spinner-border ms-auto"
+              role="status"
+              aria-hidden="true"
+            ></div>
+          </span>
+        </li>
+      </ng-template>
+    </div>
+  </div>
+</div>

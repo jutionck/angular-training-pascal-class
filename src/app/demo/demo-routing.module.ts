@@ -23,7 +23,8 @@ const routes: Routes = [
   {
     path: 'new-todos',
     loadChildren: () => import('./new-todo/new-todo.module').then(m => m.NewTodoModule)
-  }
+  },
+  { path: 'users', loadChildren: () => import('./user/user.module').then(m => m.UserModule) }
 ];
 
 @NgModule({

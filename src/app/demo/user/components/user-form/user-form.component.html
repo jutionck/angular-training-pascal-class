@@ -1,0 +1,100 @@
+<div class="card shadow">
+  <ng-container *ngIf="message">
+    <div
+      class="alert {{ message.status ? 'alert-' + message.status : '' }} mb-5"
+    >
+      {{ message.text }}
+    </div>
+  </ng-container>
+  <div class="card-body">
+    <h5 class="card-title">User Form</h5>
+    <h6 class="card-subtitle mb-2 text-muted">User Management Apps</h6>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmituser()">
+      <div class="input-group mb-3 mt-4">
+        <input
+          type="text"
+          class="form-control {{ isFieldValid('username') }}"
+          placeholder="Username"
+          aria-label="Username"
+          formControlName="usename"
+        />
+        <div
+          class="invalid-feedback"
+          validation-message
+          [control]="userForm.controls['username']"
+          [label]="'Username'"
+        ></div>
+      </div>
+      <div class="input-group mb-3">
+        <input
+          type="password"
+          class="form-control {{ isFieldValid('password') }}"
+          placeholder="Password"
+          aria-label="Password"
+          formControlName="password"
+        />
+        <div
+          class="invalid-feedback"
+          validation-message
+          [control]="userForm.controls['password']"
+          [label]="'Password'"
+        ></div>
+      </div>
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control {{ isFieldValid('fullName') }}"
+          placeholder="Nama lengkap"
+          aria-label="Nama lengkap"
+          aria-describedby="basic-addon2"
+          formControlName="fullName"
+        />
+        <div
+          class="invalid-feedback"
+          validation-message
+          [control]="userForm.controls['fullName']"
+          [label]="'Fullname'"
+        ></div>
+      </div>
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control {{ isFieldValid('email') }}"
+          placeholder="Email"
+          aria-label="Email"
+          formControlName="email"
+        />
+        <div
+          class="invalid-feedback"
+          validation-message
+          [control]="userForm.controls['email']"
+          [label]="'Email'"
+        ></div>
+      </div>
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control {{ isFieldValid('phone') }}"
+          placeholder="No Telphone"
+          aria-label="No Telphone"
+          formControlName="phone"
+        />
+        <div
+          class="invalid-feedback"
+          validation-message
+          [control]="userForm.controls['phone']"
+          [label]="'Telphone'"
+        ></div>
+      </div>
+      <div class="d-grid gap-2 btn-group">
+        <button
+          class="btn btn-outline-primary"
+          type="submit"
+          [disabled]="userForm.invalid"
+        >
+          Simpan
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
