@@ -77,7 +77,7 @@ export class NewTodoService {
     return this.http.get<Todo>(`/api/todos/${id}`, { headers });
   }
 
-  public save(todo: Todo): Observable<Todo> {
+  public save(todo: Todo, image?: File): Observable<Todo> {
     // return new Observable((observer: Observer<Todo>) => {
     //   const todoValue: string = this.storage.getItem('todos') as string;
     //   try {
@@ -100,15 +100,20 @@ export class NewTodoService {
     //   }
     //   observer.complete();
     // })
-    const token: string = sessionStorage.getItem('token') as string;
-    const headers: HttpHeaders = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-type': 'Application/json; charset=utf-8'
-    });
+    // const token: string = sessionStorage.getItem('token') as string;
+    // const headers: HttpHeaders = new HttpHeaders({
+    //   'Authorization': `Bearer ${token}`,
+    //   'Content-type': 'Application/json; charset=utf-8'
+    // });
+    const formData: FormData = new FormData();
+    formData.append('name', todo.name);
+    formData.append('isDone', `${todo.isDone}`);
+    formData.append('image', image, image.name)
+
     if (todo.id) {
-      return this.http.put<Todo>('/api/todos', todo, { headers })
+      return this.http.put<Todo>('/api/todos', formData)
     } else {
-      return this.http.post<Todo>('/api/todos', todo, { headers })
+      return this.http.post<Todo>('/api/todos', formData)
     }
   }
 

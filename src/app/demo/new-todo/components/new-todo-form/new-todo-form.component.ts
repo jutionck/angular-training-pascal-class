@@ -20,8 +20,10 @@ export class NewTodoFormComponent implements OnInit {
     id: new FormControl(null),
     name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
     isDone: new FormControl(false),
+    photo: new FormControl(),
     subTodos: new FormArray([])
   })
+  photo?: File;
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -54,7 +56,6 @@ export class NewTodoFormComponent implements OnInit {
     this.todoForm.get('id')?.setValue(todo.id);
     this.todoForm.get('name')?.setValue(todo.name);
     this.todoForm.get('isDone')?.setValue(todo.isDone);
-
     if (Array.isArray(todo.subTodos) && todo.subTodos.length > 0) {
       todo.subTodos.forEach((subTodo) => {
         this.addTodo(subTodo);
@@ -64,11 +65,21 @@ export class NewTodoFormComponent implements OnInit {
 
   onSubmitTodo(): void {
     const todo: Todo = this.todoForm.value;
-    this.todoService.save(todo)
+    this.todoService.save(todo, this.photo)
       .subscribe(() => {
         this.router.navigateByUrl('/demo/new-todos');
         this.todoForm.reset()
       })
+  }
+
+  onTodoPhoto(event: any): void {
+    const files: FileList = event.target.files;
+    console.log(files.item(0));
+
+    if (files) {
+      this.photo = files.item(0);
+      this.todoForm.get('photo')?.setValue(this.photo)
+    }
   }
 
   isFieldValid(fieldName: string, parent?: AbstractControl): string {

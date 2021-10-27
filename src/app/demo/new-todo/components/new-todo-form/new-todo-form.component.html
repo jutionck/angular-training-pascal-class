@@ -24,6 +24,14 @@
           placeholder="Adding todo name"
           formControlName="name"
         />
+
+        <input
+          type="file"
+          class="form-control"
+          placeholder="Adding todo name"
+          formControlName="photo"
+          (change)="onTodoPhoto($event)"
+        />
         <button
           class="btn btn-outline-primary"
           type="submit"
