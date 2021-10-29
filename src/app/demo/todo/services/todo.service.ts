@@ -24,7 +24,7 @@ export class TodoService {
   saveTodo(todo: Todo): void {
     try {
       if (!todo.id) {
-        todo.id = this.todos.length < 1 ? 1 : this.todos[this.todos.length - 1].id + 1;
+        todo.id = this.todos.length < 1 ? 1 : this.todos[this.todos.length - 1].id as number + 1;
         this.todos.push(todo);
       } else {
         this.todos.forEach((item, index) => {

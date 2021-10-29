@@ -68,16 +68,17 @@ describe('AppComponent()', () => {
   })
 
   describe('#fakeAsync and Tick', () => {
-    it('Asynchronous test example with setTimeOut without fakeAsync and tick', () => {
+    it('Asynchronous test example with setTimeOut without fakeAsync and tick', (done) => {
       let test: boolean = false;
       setTimeout(() => {
         console.log("running assertion");
         test = true;
         expect(test).toBeTruthy()
+        done()
       }, 1000);
     })
 
-    it('Asynchronous test example with setTimeOut without fakeAsync and tick', fakeAsync(() => {
+    it('Asynchronous test example with setTimeOut with fakeAsync and tick', fakeAsync(() => {
       let test: boolean = false;
       setTimeout(() => {
         console.log("running assertion");
