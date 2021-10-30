@@ -6,7 +6,7 @@
     "start": "ng serve --open",
     "build": "ng build",
     "build:staging": "ng build --configuration staging",
-    "build:prod": "ng build --configuration production",
+    "build:prod": "ng build --prod --aot --no-progress",
     "test": "ng test",
     "test:coverage": "ng test --no-watch --code-coverage",
     "lint": "ng lint",

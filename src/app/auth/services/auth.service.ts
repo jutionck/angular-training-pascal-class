@@ -16,4 +16,6 @@ export class AuthService {
     return this.http
       .post<LoginToken>('/api/auth/login', data);
   }
+
+  public logout(): void { }
 }

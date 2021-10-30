@@ -34,8 +34,8 @@ export class AuthComponent implements OnInit {
   }
 
   authForm: FormGroup = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(4)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    username: new FormControl(null, [Validators.required, Validators.minLength(4)]),
+    password: new FormControl(null, [Validators.required, Validators.minLength(4)]),
   })
 
   onSubmit(): void {

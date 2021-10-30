@@ -1,0 +1,14 @@
+services:
+  my-app:
+    build: .
+    image: enigma/my-app
+    container_name: my-app
+    ports:
+      - "5555:80"
+    networks:
+      - net.external
+
+networks:
+  net.external:
+    name: net.external
+    external: true
